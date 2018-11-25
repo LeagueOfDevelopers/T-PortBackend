@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T-PortBackend", "T-PortBackend\T-PortBackend.csproj", "{0CEBDEE0-C9FA-4934-A255-D2DD55AE151E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T-PortBackend", "TPortApi\TPortApi.csproj", "{0CEBDEE0-C9FA-4934-A255-D2DD55AE151E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TPort", "TPort\TPort.csproj", "{511CD839-2C06-4FAC-8050-5D9727BC7752}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,5 +14,9 @@ Global
 		{0CEBDEE0-C9FA-4934-A255-D2DD55AE151E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CEBDEE0-C9FA-4934-A255-D2DD55AE151E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CEBDEE0-C9FA-4934-A255-D2DD55AE151E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{511CD839-2C06-4FAC-8050-5D9727BC7752}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{511CD839-2C06-4FAC-8050-5D9727BC7752}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{511CD839-2C06-4FAC-8050-5D9727BC7752}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{511CD839-2C06-4FAC-8050-5D9727BC7752}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
