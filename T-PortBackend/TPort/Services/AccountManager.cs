@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net.Mail;
 using TPort.Domain.Exceptions;
 using TPort.Domain.Infrastructure.DataAccess;
@@ -16,7 +17,9 @@ namespace TPort.Services
                 firstName, 
                 lastName, 
                 new Credentials(email, password), 
-                DateTimeOffset.Now);
+                DateTimeOffset.Now,
+                new List<BankCardData>(),
+                new List<PassportData>());
             
             var accountSaved = _accountRepository.TryToSaveAccount(newAccount);
             
