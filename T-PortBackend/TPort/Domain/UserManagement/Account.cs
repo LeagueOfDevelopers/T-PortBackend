@@ -5,14 +5,13 @@ namespace TPort.Domain.UserManagement
 {
     public class Account
     {
-        public Account(Guid id, string firstName, string middleName, string lastName, MailAddress email, 
-            string password, DateTimeOffset registrationTime)
+        public Account(Guid id, string firstName, string lastName, Credentials userCredentials,
+            DateTimeOffset registrationTime)
         {
             Id = id;
             FirstName = firstName ?? throw new ArgumentNullException(nameof(firstName));
             LastName = lastName ?? throw new ArgumentNullException(nameof(lastName));
-            Email = email ?? throw new ArgumentNullException(nameof(email));
-            Password = password ?? throw new ArgumentNullException(nameof(password));
+            UserCredentials = userCredentials ?? throw new ArgumentNullException(nameof(userCredentials));
             RegistrationTime = registrationTime;
         }
 
@@ -22,9 +21,7 @@ namespace TPort.Domain.UserManagement
         
         public string LastName { get; }
         
-        public MailAddress Email { get; }
-        
-        public string Password { get; }    // надо будет создать класс Password
+        public Credentials UserCredentials { get; }
         
         public DateTimeOffset RegistrationTime { get; }
     }
