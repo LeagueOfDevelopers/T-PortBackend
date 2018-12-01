@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using TPort.Domain.RouteManagement;
+using TPort.Services;
 using TPortApi.Models;
 
 namespace TPortApi.Controllers
@@ -12,11 +13,15 @@ namespace TPortApi.Controllers
         [Route("route")]
         public ActionResult BuildRoute([FromBody] RequestRoute requestRoute)
         {
-            return Ok(new ResponseRoute(
-                requestRoute.DepartDate,
-                DateTimeOffset.Now,
-                new List<RouteSegment>(),
-                10000));
+            var builtRoute = _routeManager.BuildRoute(
+                requestRoute.Origin,
+                requestRoute.Destination,
+                requestRoute.UserId
+            );
+
+            return Ok(builtRoute);
         }
+
+        private readonly RouteManager _routeManager;
     }
 }
