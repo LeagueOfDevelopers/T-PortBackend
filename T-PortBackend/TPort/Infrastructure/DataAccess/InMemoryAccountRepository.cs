@@ -7,6 +7,11 @@ namespace TPort.Infrastructure.DataAccess
 {
     public class InMemoryAccountRepository : IAccountRepository
     {
+        public InMemoryAccountRepository(Dictionary<Guid, Account> accounts)
+        {
+            _accounts = accounts ?? throw new ArgumentNullException(nameof(accounts));
+        }
+
         public bool TryToSaveAccount(Account account)
         {
             return _accounts.TryAdd(account.Id, account);

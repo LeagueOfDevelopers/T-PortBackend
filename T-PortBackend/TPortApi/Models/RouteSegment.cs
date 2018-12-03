@@ -1,4 +1,5 @@
 using System;
+using TPort.Domain.RouteManagement;
 
 namespace TPortApi.Models
 {
