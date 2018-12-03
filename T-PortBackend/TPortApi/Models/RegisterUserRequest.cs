@@ -10,10 +10,6 @@ namespace TPortApi.Models
         
         [MaxLength(50)]
         [RegularExpression(@"^[\d\w\s-]+$")]
-        public string MiddleName { get; set; }
-        
-        [MaxLength(50)]
-        [RegularExpression(@"^[\d\w\s-]+$")]
         public string LastName { get; set; }
         
         [EmailAddress]

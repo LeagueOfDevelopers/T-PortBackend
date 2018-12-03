@@ -17,8 +17,11 @@ namespace TPortApi.Controllers
         [Route("register")]
         public IActionResult RegisterUser(RegisterUserRequest registerRequest)
         {
-            var newUserId = _accountManager.CreateAccount(registerRequest.FirstName, registerRequest.MiddleName,
-                registerRequest.LastName, new MailAddress(registerRequest.Email), registerRequest.Password);
+            var newUserId = _accountManager.CreateAccount(
+                registerRequest.FirstName,
+                registerRequest.LastName, 
+                new MailAddress(registerRequest.Email),
+                registerRequest.Password);
             return Ok(newUserId);
         }
 

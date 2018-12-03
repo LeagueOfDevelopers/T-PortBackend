@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net.Mail;
 using TPort.Domain.Exceptions;
 using TPort.Domain.Infrastructure.DataAccess;
@@ -8,11 +9,18 @@ namespace TPort.Services
 {
     public class AccountManager
     {
-        public Guid CreateAccount(string firstName, string middleName, string lastName, MailAddress email,
+        public Guid CreateAccount(string firstName, string lastName, MailAddress email,
             string password)
         {
-            var newAccount = new Account(Guid.NewGuid(), firstName, middleName, lastName, email, password,
-                DateTimeOffset.Now);
+            var newAccount = new Account(
+                Guid.NewGuid(), 
+                firstName, 
+                lastName, 
+                new Credentials(email, password), 
+                DateTimeOffset.Now,
+                new List<BankCardData>(),
+                new List<PassportData>());
+            
             var accountSaved = _accountRepository.TryToSaveAccount(newAccount);
             
             if(!accountSaved)
