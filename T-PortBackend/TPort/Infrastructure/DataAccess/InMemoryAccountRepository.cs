@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
-using TPort.Domain.Infrastructure.DataAccess;
+using System.Linq;
+using TPort.Common;
 using TPort.Domain.UserManagement;
 
 namespace TPort.Infrastructure.DataAccess
@@ -20,6 +21,11 @@ namespace TPort.Infrastructure.DataAccess
         public Account LoadAccount(Guid id)
         {
             return _accounts.GetValueOrDefault(id);
+        }
+
+        public Account GetUserByCredentials(Credentials credentials)
+        {
+            return _accounts.Values.FirstOrDefault(account => account.UserCredentials == credentials);
         }
 
         private readonly Dictionary<Guid, Account> _accounts;

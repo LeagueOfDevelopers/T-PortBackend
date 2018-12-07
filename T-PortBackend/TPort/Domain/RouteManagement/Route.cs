@@ -6,15 +6,23 @@ namespace TPort.Domain.RouteManagement
 {
     public class Route
     {
-        public Route(Guid id, Address departureAddress, Address arrivalAddress, List<RouteSegment> routeSegments)
+        public Route(
+            Guid routeId,
+            Guid userId,
+            Address departureAddress,
+            Address arrivalAddress,
+            List<RouteSegment> routeSegments)
         {
-            Id = id;
+            RouteId = routeId;
+            UserId = userId;
             DepartureAddress = departureAddress ?? throw new ArgumentNullException(nameof(departureAddress));
             ArrivalAddress = arrivalAddress ?? throw new ArgumentNullException(nameof(arrivalAddress));
             _routeSegments = routeSegments ?? throw new ArgumentNullException(nameof(routeSegments));
         }
 
-        public Guid Id { get; }
+        public Guid RouteId { get; }
+        
+        public Guid UserId { get; }
         
         public Address DepartureAddress { get; }
         

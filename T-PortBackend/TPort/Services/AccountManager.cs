@@ -1,22 +1,27 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Mail;
+using TPort.Common;
 using TPort.Domain.Exceptions;
-using TPort.Domain.Infrastructure.DataAccess;
 using TPort.Domain.UserManagement;
+using TPort.Infrastructure.DataAccess;
 
 namespace TPort.Services
 {
     public class AccountManager
     {
-        public Guid CreateAccount(string firstName, string lastName, MailAddress email,
-            string password)
+        public AccountManager(IAccountRepository accountRepository)
+        {
+            _accountRepository = accountRepository ?? throw new ArgumentNullException(nameof(accountRepository));
+        }
+
+        public Guid CreateAccount(string firstName, string lastName, Credentials credentials)
         {
             var newAccount = new Account(
                 Guid.NewGuid(), 
                 firstName, 
                 lastName, 
-                new Credentials(email, password), 
+                credentials, 
                 DateTimeOffset.Now,
                 new List<BankCardData>(),
                 new List<PassportData>());
@@ -27,6 +32,11 @@ namespace TPort.Services
                 throw new AccountAlreadyExistsException();
             
             return newAccount.Id;
+        }
+        
+        public Account FindByCredentials(Credentials credentials)
+        {
+            return _accountRepository.GetUserByCredentials(credentials);
         }
 
         private readonly IAccountRepository _accountRepository;

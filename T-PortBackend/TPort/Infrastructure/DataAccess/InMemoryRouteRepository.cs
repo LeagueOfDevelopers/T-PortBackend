@@ -13,7 +13,7 @@ namespace TPort.Infrastructure.DataAccess
 
         public void SaveRoute(Route route)
         {
-            _routes.Add(route.Id, route);
+            _routes.Add(route.RouteId, route);
         }
 
         public Route LoadRoute(Guid routeId)

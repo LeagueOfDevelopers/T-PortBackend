@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace TPortApi.Models
+namespace TPortApi.Models.RouteModels
 {
     public class ResponseRoute
     {
