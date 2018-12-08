@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using TPort.Domain.RouteManagement;
 
-namespace TPortApi.Models
+namespace TPortApi.Models.RouteModels
 {
     public class RequestRoute
     {

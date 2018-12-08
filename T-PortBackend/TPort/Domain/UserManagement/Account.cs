@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TPort.Common;
 
 namespace TPort.Domain.UserManagement
 {
