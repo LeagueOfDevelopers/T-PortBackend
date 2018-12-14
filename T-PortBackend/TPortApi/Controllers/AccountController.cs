@@ -26,7 +26,8 @@ namespace TPortApi.Controllers
                 Credentials.FromRawData(
                     new MailAddress(registerRequest.Email),
                     registerRequest.Password));
-            return Ok(newUserId);
+            var response = new RegisterResponse(newUserId);
+            return Ok(response);
         }
 
         [HttpPost]
@@ -36,13 +37,10 @@ namespace TPortApi.Controllers
             var credentials = Credentials.FromRawData(new MailAddress(loginRequest.Email), loginRequest.Password);
             var account = _accountManager.FindByCredentials(credentials);
 
-            if (account != null)
-            {
-                var token = _jwtIssuer.IssueJwt(account.Id);
-                return Ok(token);
-            }
+            if (account == null) return Unauthorized();
+            var token = _jwtIssuer.IssueJwt(account.Id);
+            return Ok(new LoginResponse(token));
 
-            return Unauthorized();
         }
 
         private readonly AccountManager _accountManager;
