@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
+using TPort.Domain.RouteManagement;
 using TPort.Domain.UserManagement;
 using TPort.Infrastructure.DataAccess;
 using TPort.Services;
@@ -36,8 +37,11 @@ namespace TPortApi
             });
 
             IAccountRepository accountRepository = new InMemoryAccountRepository(new Dictionary<Guid, Account>());
+            IRouteRepository routeRepository = new InMemoryRouteRepository(new Dictionary<Guid, Route>());
             var accountManager = new AccountManager(accountRepository);
-            
+            var routeManager = new RouteManager(routeRepository);
+
+            services.AddSingleton(routeManager);
             services.AddSingleton(ConfigureSequrity(services));
             services.AddSingleton(accountManager);
 
