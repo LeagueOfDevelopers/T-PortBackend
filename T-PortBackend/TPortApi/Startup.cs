@@ -42,7 +42,7 @@ namespace TPortApi
             var routeManager = new RouteManager(routeRepository);
 
             services.AddSingleton(routeManager);
-            services.AddSingleton(ConfigureSequrity(services));
+            services.AddSingleton(ConfigureSecurity(services));
             services.AddSingleton(accountManager);
 
         }
@@ -69,9 +69,9 @@ namespace TPortApi
             app.UseMvc();
         }
         
-        private IJwtIssuer ConfigureSequrity(IServiceCollection services)
+        private IJwtIssuer ConfigureSecurity(IServiceCollection services)
         {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["sequritySettings:tokenKey"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["securitySettings:tokenKey"]));
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -92,7 +92,7 @@ namespace TPortApi
                 });
 
             var jwtIssuer = new JwtIssuer(key,
-                TimeSpan.FromMinutes(Configuration.GetValue<int>("sequritySettings:tokenLifeMinutes")));
+                TimeSpan.FromMinutes(Configuration.GetValue<int>("securitySettings:tokenLifeMinutes")));
 
             
             return jwtIssuer;
