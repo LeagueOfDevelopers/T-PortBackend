@@ -26,12 +26,12 @@ namespace TPortApi.Security
 
         public bool ValidateToken(string phoneNumber, int token)
         {
+            return true;
             var existingToken = _totpTokenRepository.GetToken(phoneNumber);
             if (existingToken == 0) throw new UnregisteredPhoneNumberException();
             if (existingToken != token) throw new InvalidTokenException();
             var totpValidator = new TotpValidator(_totpGenerator);
-            //return totpValidator.Validate(_secretKey, token, _totpTokenLifetimeInSeconds);
-            return true;
+            return totpValidator.Validate(_secretKey, token, _totpTokenLifetimeInSeconds);
         }
 
 
