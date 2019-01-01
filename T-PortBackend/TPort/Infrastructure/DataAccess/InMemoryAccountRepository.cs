@@ -13,9 +13,9 @@ namespace TPort.Infrastructure.DataAccess
             _accounts = accounts ?? throw new ArgumentNullException(nameof(accounts));
         }
 
-        public bool TryToSaveAccount(Account account)
+        public void SaveAccount(Account account)
         {
-            return _accounts.TryAdd(account.UserCredentials.PhoneNumber, account);
+            _accounts.Add(account.UserCredentials.PhoneNumber, account);
         }
 
         public Account LoadAccountById(Guid id)
