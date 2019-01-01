@@ -15,6 +15,7 @@ using TPort.Domain.RouteManagement;
 using TPort.Domain.UserManagement;
 using TPort.Infrastructure.DataAccess;
 using TPort.Services;
+using TPortApi.Filters;
 using TPortApi.Security;
 
 namespace TPortApi
@@ -30,6 +31,12 @@ namespace TPortApi
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(typeof(ExceptionFilter));
+                options.Filters.Add(typeof(ModelValidationFilter));
+            });
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             
             services.AddSwaggerGen(c =>

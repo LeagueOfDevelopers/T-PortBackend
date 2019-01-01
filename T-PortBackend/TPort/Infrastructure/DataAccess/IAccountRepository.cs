@@ -6,7 +6,7 @@ namespace TPort.Infrastructure.DataAccess
 {
     public interface IAccountRepository
     {
-        bool TryToSaveAccount(Account account);
+        void SaveAccount(Account account);
         
         Account LoadAccountById(Guid id);
 
