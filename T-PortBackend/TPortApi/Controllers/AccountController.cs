@@ -45,7 +45,7 @@ namespace TPortApi.Controllers
         {
             _totpManager.ValidateToken(loginConfirmationRequest.Phone, loginConfirmationRequest.Code);
             var account = _accountManager.LoadAccount(loginConfirmationRequest.Phone);
-            var credentials = Credentials.FromRawData(loginConfirmationRequest.Phone, Request.Headers["User-Agent"]);
+            var credentials = new Credentials(Request.Headers["User-Agent"], loginConfirmationRequest.Phone);
             var accountId = account?.Id ?? _accountManager.CreateAccount(credentials);
             var token = _jwtIssuer.IssueJwt(accountId);
             return Ok(new LoginResponse(token));

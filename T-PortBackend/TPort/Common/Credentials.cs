@@ -6,28 +6,18 @@ namespace TPort.Common
 {
     public class Credentials
     {
-        public Credentials(string userAgentHash, string phoneNumber)
+        public Credentials(string userAgent, string phoneNumber)
         {
-            UserAgentHash = userAgentHash ?? throw new ArgumentNullException(nameof(userAgentHash));
+            UserAgent = userAgent ?? throw new ArgumentNullException(nameof(userAgent));
             PhoneNumber = phoneNumber ?? throw new ArgumentNullException(nameof(phoneNumber));
         }
 
         public string PhoneNumber { get; }
-        public string UserAgentHash { get; }
-
-        public static Credentials FromRawData(string phoneNumber, string rawUserAgent)
-        {
-            using (var sha256 = SHA256.Create())
-            {
-                var hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(rawUserAgent));
-                var userAgentHash = Encoding.UTF8.GetString(hashBytes);
-                return new Credentials(phoneNumber, userAgentHash);
-            }
-        }
+        public string UserAgent { get; }
         
         protected bool Equals(Credentials other)
         {
-            return string.Equals(PhoneNumber, other.PhoneNumber) && string.Equals(UserAgentHash, other.UserAgentHash);
+            return string.Equals(PhoneNumber, other.PhoneNumber) && string.Equals(UserAgent, other.UserAgent);
         }
 
         public override bool Equals(object obj)
@@ -42,7 +32,7 @@ namespace TPort.Common
         {
             unchecked
             {
-                return ((PhoneNumber != null ? PhoneNumber.GetHashCode() : 0) * 397) ^ (UserAgentHash != null ? UserAgentHash.GetHashCode() : 0);
+                return ((PhoneNumber != null ? PhoneNumber.GetHashCode() : 0) * 397) ^ (UserAgent != null ? UserAgent.GetHashCode() : 0);
             }
         }
 
