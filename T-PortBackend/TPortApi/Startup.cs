@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using AspNetCore.Totp;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -36,14 +37,23 @@ namespace TPortApi
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
             });
 
-            IAccountRepository accountRepository = new InMemoryAccountRepository(new Dictionary<Guid, Account>());
+            IAccountRepository accountRepository = new InMemoryAccountRepository(new Dictionary<string, Account>());
             IRouteRepository routeRepository = new InMemoryRouteRepository(new Dictionary<Guid, Route>());
             var accountManager = new AccountManager(accountRepository);
             var routeManager = new RouteManager(routeRepository);
 
+            var totpManager = new TotpManager(new TotpGenerator(),
+                Configuration["TotpSettings:totpSecretKey"],
+                Configuration.GetValue<int>("TotpSettings:totpTokenLifetimeInSeconds"),
+                new InMemoryTotpTokenRepository(new Dictionary<string, int>()));
+
+            var smsManager = new SmsManager();
+                
             services.AddSingleton(routeManager);
-            services.AddSingleton(ConfigureSequrity(services));
+            services.AddSingleton(ConfigureSecurity(services));
             services.AddSingleton(accountManager);
+            services.AddSingleton(totpManager);
+            services.AddSingleton(smsManager);
 
         }
 
@@ -69,9 +79,9 @@ namespace TPortApi
             app.UseMvc();
         }
         
-        private IJwtIssuer ConfigureSequrity(IServiceCollection services)
+        private IJwtIssuer ConfigureSecurity(IServiceCollection services)
         {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["sequritySettings:tokenKey"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["securitySettings:tokenKey"]));
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -92,7 +102,7 @@ namespace TPortApi
                 });
 
             var jwtIssuer = new JwtIssuer(key,
-                TimeSpan.FromMinutes(Configuration.GetValue<int>("sequritySettings:tokenLifeMinutes")));
+                TimeSpan.FromMinutes(Configuration.GetValue<int>("securitySettings:tokenLifeMinutes")));
 
             
             return jwtIssuer;

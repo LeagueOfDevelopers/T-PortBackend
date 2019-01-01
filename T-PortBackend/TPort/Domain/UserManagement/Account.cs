@@ -8,16 +8,12 @@ namespace TPort.Domain.UserManagement
     {
         public Account(
             Guid id,
-            string firstName,
-            string surname, 
             Credentials userCredentials,
             DateTimeOffset registrationTime,
             List<BankCardData> connectedUsersBankCardData,
             List<PassportData> connectedUsersPassportsData)
         {
             Id = id;
-            FirstName = firstName ?? throw new ArgumentNullException(nameof(firstName));
-            Surname = surname ?? throw new ArgumentNullException(nameof(surname));
             UserCredentials = userCredentials ?? throw new ArgumentNullException(nameof(userCredentials));
             RegistrationTime = registrationTime;
             _connectedUsersBankCardData = connectedUsersBankCardData ??
@@ -27,10 +23,6 @@ namespace TPort.Domain.UserManagement
         }
 
         public Guid Id { get; }
-        
-        public string FirstName { get; }
-        
-        public string Surname { get; }
         
         public Credentials UserCredentials { get; }
         

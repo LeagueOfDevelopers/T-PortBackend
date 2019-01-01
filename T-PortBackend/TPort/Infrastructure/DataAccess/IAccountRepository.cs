@@ -7,8 +7,11 @@ namespace TPort.Infrastructure.DataAccess
     public interface IAccountRepository
     {
         bool TryToSaveAccount(Account account);
+        
+        Account LoadAccountById(Guid id);
 
-        Account LoadAccount(Guid id);
+        Account LoadAccountByPhoneNumber(string phoneNumber);
+        
         Account GetUserByCredentials(Credentials credentials);
     }
 }

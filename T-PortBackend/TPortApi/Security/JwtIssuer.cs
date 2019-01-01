@@ -30,5 +30,6 @@ namespace TPortApi.Security
         
         private readonly SymmetricSecurityKey _key;
         private readonly TimeSpan _expirationPeriod;
+        
     }
 }
