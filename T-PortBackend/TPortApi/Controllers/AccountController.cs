@@ -19,7 +19,7 @@ namespace TPortApi.Controllers
         }
 
         /// <summary>
-        /// Sends a verification code to the entered phone number
+        ///     Sends a verification code to the entered phone number.
         /// </summary>
         [HttpPost]
         [Route("login")]
@@ -34,10 +34,10 @@ namespace TPortApi.Controllers
         }
 
         /// <summary>
-        /// Checks verification code
+        ///     Checks verification code.
         /// </summary>
         /// <returns>
-        /// Jwt token
+        /// Jwt token.
         /// </returns>
         [HttpPut]
         [Route("login")]
