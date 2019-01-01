@@ -15,12 +15,10 @@ namespace TPort.Services
             _accountRepository = accountRepository ?? throw new ArgumentNullException(nameof(accountRepository));
         }
 
-        public Guid CreateAccount(string firstName, string lastName, Credentials credentials)
+        public Guid CreateAccount(Credentials credentials)
         {
             var newAccount = new Account(
                 Guid.NewGuid(), 
-                firstName, 
-                lastName, 
                 credentials, 
                 DateTimeOffset.Now,
                 new List<BankCardData>(),
@@ -32,6 +30,11 @@ namespace TPort.Services
                 throw new AccountAlreadyExistsException();
             
             return newAccount.Id;
+        }
+
+        public Account LoadAccount(string phoneNumber)
+        {
+            return _accountRepository.LoadAccountByPhoneNumber(phoneNumber);
         }
         
         public Account FindByCredentials(Credentials credentials)

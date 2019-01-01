@@ -8,19 +8,24 @@ namespace TPort.Infrastructure.DataAccess
 {
     public class InMemoryAccountRepository : IAccountRepository
     {
-        public InMemoryAccountRepository(Dictionary<Guid, Account> accounts)
+        public InMemoryAccountRepository(Dictionary<string, Account> accounts)
         {
             _accounts = accounts ?? throw new ArgumentNullException(nameof(accounts));
         }
 
         public bool TryToSaveAccount(Account account)
         {
-            return _accounts.TryAdd(account.Id, account);
+            return _accounts.TryAdd(account.UserCredentials.PhoneNumber, account);
         }
 
-        public Account LoadAccount(Guid id)
+        public Account LoadAccountById(Guid id)
         {
-            return _accounts.GetValueOrDefault(id);
+            return _accounts.Values.FirstOrDefault(account => account.Id == id);
+        }
+
+        public Account LoadAccountByPhoneNumber(string phoneNumber)
+        {
+            return _accounts.GetValueOrDefault(phoneNumber);
         }
 
         public Account GetUserByCredentials(Credentials credentials)
@@ -28,6 +33,6 @@ namespace TPort.Infrastructure.DataAccess
             return _accounts.Values.FirstOrDefault(account => account.UserCredentials == credentials);
         }
 
-        private readonly Dictionary<Guid, Account> _accounts;
+        private readonly Dictionary<string, Account> _accounts;
     }
 }

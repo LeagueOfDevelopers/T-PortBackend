@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using AspNetCore.Totp;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -36,14 +37,23 @@ namespace TPortApi
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
             });
 
-            IAccountRepository accountRepository = new InMemoryAccountRepository(new Dictionary<Guid, Account>());
+            IAccountRepository accountRepository = new InMemoryAccountRepository(new Dictionary<string, Account>());
             IRouteRepository routeRepository = new InMemoryRouteRepository(new Dictionary<Guid, Route>());
             var accountManager = new AccountManager(accountRepository);
             var routeManager = new RouteManager(routeRepository);
 
+            var totpManager = new TotpManager(new TotpGenerator(),
+                Configuration["TotpSettings:totpSecretKey"],
+                Configuration.GetValue<int>("TotpSettings:totpTokenLifetimeInSeconds"),
+                new InMemoryTotpTokenRepository(new Dictionary<string, int>()));
+
+            var smsManager = new SmsManager();
+                
             services.AddSingleton(routeManager);
             services.AddSingleton(ConfigureSecurity(services));
             services.AddSingleton(accountManager);
+            services.AddSingleton(totpManager);
+            services.AddSingleton(smsManager);
 
         }
 
