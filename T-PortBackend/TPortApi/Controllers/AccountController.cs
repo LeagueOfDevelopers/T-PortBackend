@@ -18,6 +18,9 @@ namespace TPortApi.Controllers
             _totpManager = totpManager;
         }
 
+        /// <summary>
+        /// Sends a verification code to the entered phone number
+        /// </summary>
         [HttpPost]
         [Route("login")]
         public IActionResult Login([FromBody] LoginRequest loginRequest)
@@ -30,6 +33,12 @@ namespace TPortApi.Controllers
 
         }
 
+        /// <summary>
+        /// Checks verification code
+        /// </summary>
+        /// <returns>
+        /// Jwt token
+        /// </returns>
         [HttpPut]
         [Route("login")]
         public IActionResult Login([FromBody] LoginConfirmationRequest loginConfirmationRequest)
