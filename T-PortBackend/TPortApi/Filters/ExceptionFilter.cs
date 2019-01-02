@@ -18,6 +18,15 @@ namespace TPortApi.Filters
                         context.Result = new NotFoundResult();
                         context.ExceptionHandled = true;
                         break;
+                    default:
+                        context.Result = new ContentResult
+                        {
+                            Content = context.Exception.Message,
+                            StatusCode = 501
+                        };
+                        context.ExceptionHandled = true;
+                        break;
+                            
             }
         }
     }
