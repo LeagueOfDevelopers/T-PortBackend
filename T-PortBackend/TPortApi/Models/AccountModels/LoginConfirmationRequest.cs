@@ -9,6 +9,6 @@ namespace TPortApi.Models.AccountModels
         public string Phone { get; set; }
         
         [Required]
-        public int Code { get; set; }
+        public string Code { get; set; }
     }
 }

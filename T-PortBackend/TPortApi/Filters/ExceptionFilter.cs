@@ -22,7 +22,7 @@ namespace TPortApi.Filters
                         context.Result = new ContentResult
                         {
                             Content = context.Exception.Message,
-                            StatusCode = 501
+                            StatusCode = 500
                         };
                         context.ExceptionHandled = true;
                         break;
