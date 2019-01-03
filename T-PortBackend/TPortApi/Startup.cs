@@ -45,9 +45,7 @@ namespace TPortApi
             });
 
             IAccountRepository accountRepository = new InMemoryAccountRepository(new Dictionary<string, Account>());
-            IRouteRepository routeRepository = new InMemoryRouteRepository(new Dictionary<Guid, Route>());
             var accountManager = new AccountManager(accountRepository);
-            var routeManager = new RouteManager(routeRepository);
 
             var totpManager = new TotpManager(new TotpGenerator(),
                 Configuration["TotpSettings:totpSecretKey"],
@@ -55,10 +53,19 @@ namespace TPortApi
                 new InMemoryTotpTokenRepository(new Dictionary<string, int>()));
 
             var smsManager = new SmsManager();
-                
-            services.AddSingleton(routeManager);
+
+            var cityManager = new CityManager(new InMemoryCityRepository(new List<City>
+            {
+                new City(1, "Москва", "MSK"),
+                new City(2, "Санкт-Петербург", "SPB"),
+                new City(3, "Беслан", "BES"),
+                new City(4, "Воронеж", "VRJ")
+            }));
+                        
             services.AddSingleton(ConfigureSecurity(services));
             services.AddSingleton(accountManager);
+            services.AddSingleton(new RouteManager());
+            services.AddSingleton(cityManager);
             services.AddSingleton(totpManager);
             services.AddSingleton(smsManager);
 
@@ -74,6 +81,8 @@ namespace TPortApi
             {
                 app.UseHsts();
             }
+
+            app.UseStaticFiles();
             
             app.UseSwagger();
             

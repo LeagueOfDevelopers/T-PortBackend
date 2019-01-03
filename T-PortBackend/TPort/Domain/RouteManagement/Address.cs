@@ -4,23 +4,14 @@ namespace TPort.Domain.RouteManagement
 {
     public class Address
     {
-        public Address(string countryName, string regionName, string cityName, string streetName, string houseName)
+        public Address(City city, Coordinates coordinates)
         {
-            CountryName = countryName ?? throw new ArgumentNullException(nameof(countryName));
-            RegionName = regionName ?? throw new ArgumentNullException(nameof(regionName));
-            CityName = cityName ?? throw new ArgumentNullException(nameof(cityName));
-            StreetName = streetName ?? throw new ArgumentNullException(nameof(streetName));
-            HouseName = houseName ?? throw new ArgumentNullException(nameof(houseName));
+            City = city ?? throw new ArgumentNullException(nameof(city));
+            Coordinates = coordinates ?? throw new ArgumentNullException(nameof(coordinates));
         }
 
-        public string CountryName { get; }
+        public City City { get; }
         
-        public string RegionName { get; }
-        
-        public string CityName { get; }
-        
-        public string StreetName { get; }
-        
-        public string HouseName { get; }
+        public Coordinates Coordinates { get; }
     }
 }

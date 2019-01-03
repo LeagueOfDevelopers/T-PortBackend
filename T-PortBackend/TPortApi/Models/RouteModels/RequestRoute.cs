@@ -6,24 +6,13 @@ namespace TPortApi.Models.RouteModels
 {
     public class RequestRoute
     {
-        public RequestRoute(Guid userId, Address origin, Address destination, DateTimeOffset departDate)
-        {
-            UserId = userId;
-            Origin = origin ?? throw new ArgumentNullException(nameof(origin));
-            Destination = destination ?? throw new ArgumentNullException(nameof(destination));
-            DepartDate = departDate;
-        }
+        [Required]
+        public string DepartureCity { get; set; }
         
         [Required]
-        public Guid UserId { get; }
-
-        [Required]
-        public Address Origin { get; }
+        public string DestinationCity { get; set; }
         
         [Required]
-        public Address Destination { get; }
-        
-        [Required]
-        public DateTimeOffset DepartDate { get; }
+        public DateTimeOffset DepartDate { get; set; }
     }
 }
