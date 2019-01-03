@@ -11,9 +11,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
-using TPort.Domain.RouteManagement;
 using TPort.Domain.UserManagement;
 using TPort.Infrastructure.DataAccess;
+using TPort.Infrastructure.WorkingWithApi;
 using TPort.Services;
 using TPortApi.Filters;
 using TPortApi.Security;
@@ -53,19 +53,14 @@ namespace TPortApi
                 new InMemoryTotpTokenRepository(new Dictionary<string, int>()));
 
             var smsManager = new SmsManager();
-
-            var cityManager = new CityManager(new InMemoryCityRepository(new List<City>
-            {
-                new City(1, "Москва", "MSK"),
-                new City(2, "Санкт-Петербург", "SPB"),
-                new City(3, "Беслан", "BES"),
-                new City(4, "Воронеж", "VRJ")
-            }));
+            
+            var routeManager = new RouteManager(new AirTicketManager(new AirTicketsApi(
+                Configuration["AirApiSettings:token"],
+                Configuration["AirApiSettings:url"])));
                         
             services.AddSingleton(ConfigureSecurity(services));
+            services.AddSingleton(routeManager);
             services.AddSingleton(accountManager);
-            services.AddSingleton(new RouteManager());
-            services.AddSingleton(cityManager);
             services.AddSingleton(totpManager);
             services.AddSingleton(smsManager);
 

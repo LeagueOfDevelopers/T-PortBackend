@@ -1,100 +1,41 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TPort.Domain.RouteManagement;
 
 namespace TPort.Services
 {
     public class RouteManager
     {
-        public IEnumerable<FullTrip> FindRoutes(City departureCity, City destinationCity, DateTimeOffset departDate)
+        public RouteManager(AirTicketManager airTicketManager)
         {
-            return new[]
-            {
-                new FullTrip(new List<Route>
-                    {
-                        new Route(1,
-                            TransportationType.Taxi,
-                            1000,
-                            new Destination(new Address(departureCity,
-                                    new Coordinates(0,
-                                        0)),
-                                new Address(destinationCity,
-                                    new Coordinates(0,
-                                        0))),
-                            departDate,
-                            DateTimeOffset.Now),
-                        new Route(2,
-                            TransportationType.Airplane,
-                            5000,
-                            new Destination(new Address(departureCity,
-                                    new Coordinates(0,
-                                        0)),
-                                new Address(destinationCity,
-                                    new Coordinates(0,
-                                        0))),
-                            departDate,
-                            DateTimeOffset.Now),
-                        new Route(3,
-                            TransportationType.Train,
-                            4000,
-                            new Destination(new Address(departureCity,
-                                    new Coordinates(0,
-                                        0)),
-                                new Address(destinationCity,
-                                    new Coordinates(0,
-                                        0))),
-                            departDate,
-                            DateTimeOffset.Now)
-                    },
-                    1,
-                    new Trip(1,
-                        departureCity,
-                        destinationCity,
-                        10000,
-                        departDate)),
-                new FullTrip(new List<Route>
-                    {
-                        new Route(4,
-                            TransportationType.Train,
-                            1000,
-                            new Destination(new Address(departureCity,
-                                    new Coordinates(0,
-                                        0)),
-                                new Address(destinationCity,
-                                    new Coordinates(0,
-                                        0))),
-                            departDate,
-                            DateTimeOffset.Now),
-                        new Route(5,
-                            TransportationType.Airplane,
-                            5000,
-                            new Destination(new Address(departureCity,
-                                    new Coordinates(0,
-                                        0)),
-                                new Address(destinationCity,
-                                    new Coordinates(0,
-                                        0))),
-                            departDate,
-                            DateTimeOffset.Now),
-                        new Route(6,
-                            TransportationType.Taxi,
-                            4000,
-                            new Destination(new Address(departureCity,
-                                    new Coordinates(0,
-                                        0)),
-                                new Address(destinationCity,
-                                    new Coordinates(0,
-                                        0))),
-                            departDate,
-                            DateTimeOffset.Now)
-                    },
-                    2,
-                    new Trip(2,
-                        departureCity,
-                        destinationCity,
-                        10000,
-                        departDate))
-            };
+            _airTicketManager = airTicketManager ?? throw new ArgumentNullException(nameof(airTicketManager));
         }
+        
+        public IEnumerable<FullTrip> FindRoutes(string departureCityCode, string destinationCityCode,
+            DateTime departDate)
+        {
+            var airTickets = _airTicketManager.GetRelevantTickets(departureCityCode, destinationCityCode, departDate);
+
+            var counter = 0;
+            var fullTrips = airTickets?.Select(ticket => new FullTrip(new List<Route>
+                {
+                    new Route(counter++,
+                        TransportationType.Airplane,
+                        ticket.value,
+                        ticket.destination,
+                        DateTime.Parse(ticket.depart_date),
+                        departDate.AddMinutes(ticket.duration))
+                },
+                counter,
+                new Trip(counter,
+                    departureCityCode,
+                    destinationCityCode,
+                    ticket.value,
+                    ticket.duration))).ToList();
+            return fullTrips;
+        }
+
+        private readonly AirTicketManager _airTicketManager;
     }
 }

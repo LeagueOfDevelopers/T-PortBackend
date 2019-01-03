@@ -18,7 +18,7 @@ namespace TPortApi.Filters
                         context.Result = new NotFoundResult();
                         context.ExceptionHandled = true;
                         break;
-                    case NonexistentCityException _:
+                    /*case NonexistentCityException _:
                         context.Result = new ContentResult
                         {
                             Content = context.Exception.Message,
@@ -33,7 +33,7 @@ namespace TPortApi.Filters
                             StatusCode = 500
                         };
                         context.ExceptionHandled = true;
-                        break;
+                        break;*/
                             
             }
         }

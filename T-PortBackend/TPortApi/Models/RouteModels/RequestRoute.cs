@@ -1,18 +1,17 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using TPort.Domain.RouteManagement;
 
 namespace TPortApi.Models.RouteModels
 {
     public class RequestRoute
     {
         [Required]
-        public string DepartureCity { get; set; }
+        public string DepartureCityCode { get; set; }
         
         [Required]
-        public string DestinationCity { get; set; }
+        public string DestinationCityCode { get; set; }
         
         [Required]
-        public DateTimeOffset DepartDate { get; set; }
+        public DateTime DepartDate { get; set; }
     }
 }

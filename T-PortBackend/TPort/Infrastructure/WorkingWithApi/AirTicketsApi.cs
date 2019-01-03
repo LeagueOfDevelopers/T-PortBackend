@@ -13,15 +13,15 @@ namespace TPort.Infrastructure.WorkingWithApi
             _apiUrl = apiUrl ?? throw new ArgumentNullException(nameof(apiUrl));
         }
 
-        public async Task<ResponseModel> GetAllAirTickets(string origin, string destination, string beginningOfPeriod,
-            bool oneWay = true, string limit = "1000")
+        public async Task<ApiResponseModel> GetAllAirTickets(string origin, string destination, string beginningOfPeriod,
+            bool oneWay = true, int limit = 1000)
         {
             _client.DefaultRequestHeaders.Add("X-Access-Token", _apiToken);
             var response = await _client.GetAsync(
                     $"{_apiUrl}?origin={origin}&destination={destination}" + 
-                    $"&beginning_of_period={beginningOfPeriod}&one_way={oneWay}&period_type=month&limit={limit}");
+                    $"&beginning_of_period={beginningOfPeriod}&one_way={oneWay}&limit=1000&period_type=year");
 
-            return response.EnsureSuccessStatusCode().Content.ReadAsAsync<ResponseModel>().Result;
+            return response.Content.ReadAsAsync<ApiResponseModel>().Result;
         }
 
         private readonly string _apiToken;
