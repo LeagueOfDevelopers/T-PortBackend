@@ -1,45 +1,30 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace TPort.Domain.RouteManagement
 {
     public class Route
     {
-        public Route(
-            Guid routeId,
-            Guid userId,
-            Address departureAddress,
-            Address arrivalAddress,
-            List<RouteSegment> routeSegments)
+        public Route(Guid id, TransportationType type, int cost, string destinationCode, DateTime departureDate,
+            DateTime arrivalDate)
         {
-            RouteId = routeId;
-            UserId = userId;
-            DepartureAddress = departureAddress ?? throw new ArgumentNullException(nameof(departureAddress));
-            ArrivalAddress = arrivalAddress ?? throw new ArgumentNullException(nameof(arrivalAddress));
-            _routeSegments = routeSegments ?? throw new ArgumentNullException(nameof(routeSegments));
+            Id = id;
+            Type = type;
+            Cost = cost;
+            DestinationCode = destinationCode ?? throw new ArgumentNullException(nameof(destinationCode));
+            DepartureDate = departureDate;
+            ArrivalDate = arrivalDate;
         }
 
-        public Guid RouteId { get; }
+        public Guid Id;
         
-        public Guid UserId { get; }
+        public TransportationType Type { get; }
         
-        public Address DepartureAddress { get; }
+        public int Cost { get; }
         
-        public Address ArrivalAddress { get; }
-
-        public IEnumerable<RouteSegment> RouteSegments => _routeSegments;
-
-        public DateTimeOffset GetDepartureDate()
-        {
-            return _routeSegments.First().DepartureDate;
-        }
-
-        public DateTimeOffset GetArrivalDate()
-        {
-            return _routeSegments.Last().ArrivalDate;
-        }
+        public string DestinationCode { get; }
         
-        private readonly List<RouteSegment> _routeSegments;
+        public DateTime DepartureDate { get; }
+        
+        public DateTime ArrivalDate { get; }
     }
 }

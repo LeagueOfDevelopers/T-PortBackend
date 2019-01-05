@@ -1,33 +1,39 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TPort.Domain.RouteManagement;
-using TPort.Infrastructure.DataAccess;
 
 namespace TPort.Services
 {
     public class RouteManager
     {
-        public RouteManager(IRouteRepository routeRepository)
+        public RouteManager(AirTicketManager airTicketManager)
         {
-            _routeRepository = routeRepository ?? throw new ArgumentNullException(nameof(routeRepository));
+            _airTicketManager = airTicketManager ?? throw new ArgumentNullException(nameof(airTicketManager));
+        }
+        
+        public IEnumerable<Trip> FindRoutes(string departureCityCode, string destinationCityCode,
+            DateTime departDate)
+        {
+            var airTickets = _airTicketManager.GetRelevantTickets(departureCityCode, destinationCityCode, departDate);
+
+            var trips = airTickets?.Select(ticket => new Trip(Guid.NewGuid(),
+                ticket.Origin,
+                ticket.Destination,
+                new List<Route>
+                {
+                    new Route(Guid.NewGuid(),
+                        TransportationType.Airplane,
+                        ticket.Value,
+                        ticket.Destination,
+                        DateTime.Parse(ticket.Depart_Date),
+                        departDate.AddMinutes(ticket.Duration))
+                }, 
+                ticket.Value, 
+                TimeSpan.FromMinutes(ticket.Duration)));
+            return trips;
         }
 
-        public Route BuildRoute(Address departureAddress, Address arrivalAddress, Guid userId) //Заглушка пока
-        {
-            var builtRoute = new Route(
-                Guid.NewGuid(), 
-                Guid.NewGuid(),
-                departureAddress,
-                arrivalAddress,
-                new List<RouteSegment>()
-            );
-            // Будет еще добавление в историю маршрутов юзера
-            _routeRepository.SaveRoute(builtRoute);
-            
-            return builtRoute;
-
-        }
-
-        private readonly IRouteRepository _routeRepository;
+        private readonly AirTicketManager _airTicketManager;
     }
 }
