@@ -18,9 +18,9 @@ namespace TPort.Services
             var beginningPeriod = departureDate.AddDays(-(departureDate.Day - 1));
             var tickets = _airTicketsApi.GetAllAirTickets(originCode,
                 destinationCode,
-                beginningPeriod.Date.ToString("yyyy-MM-dd")).Result.Data;
+                beginningPeriod.Date.ToString("yyyy-MM-dd")).Data;
             
-            return tickets?.Where(ticket => ticket.actual);
+            return tickets?.Where(ticket => ticket.Actual);
             
                 //&& DateTime.Parse(ticket.depart_date).Date == departureDate.Date
         }

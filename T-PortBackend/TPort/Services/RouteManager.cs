@@ -12,28 +12,26 @@ namespace TPort.Services
             _airTicketManager = airTicketManager ?? throw new ArgumentNullException(nameof(airTicketManager));
         }
         
-        public IEnumerable<FullTrip> FindRoutes(string departureCityCode, string destinationCityCode,
+        public IEnumerable<Trip> FindRoutes(string departureCityCode, string destinationCityCode,
             DateTime departDate)
         {
             var airTickets = _airTicketManager.GetRelevantTickets(departureCityCode, destinationCityCode, departDate);
 
-            var counter = 0;
-            var fullTrips = airTickets?.Select(ticket => new FullTrip(new List<Route>
+            var trips = airTickets?.Select(ticket => new Trip(Guid.NewGuid(),
+                ticket.Origin,
+                ticket.Destination,
+                new List<Route>
                 {
-                    new Route(counter++,
+                    new Route(Guid.NewGuid(),
                         TransportationType.Airplane,
-                        ticket.value,
-                        ticket.destination,
-                        DateTime.Parse(ticket.depart_date),
-                        departDate.AddMinutes(ticket.duration))
-                },
-                counter,
-                new Trip(counter,
-                    departureCityCode,
-                    destinationCityCode,
-                    ticket.value,
-                    ticket.duration))).ToList();
-            return fullTrips;
+                        ticket.Value,
+                        ticket.Destination,
+                        DateTime.Parse(ticket.Depart_Date),
+                        departDate.AddMinutes(ticket.Duration))
+                }, 
+                ticket.Value, 
+                TimeSpan.FromMinutes(ticket.Duration)));
+            return trips;
         }
 
         private readonly AirTicketManager _airTicketManager;
