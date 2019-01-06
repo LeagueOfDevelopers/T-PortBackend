@@ -5,7 +5,7 @@ namespace TPort.Domain.RouteManagement
         Taxi,
         Airplane,
         Train,
-        Sheep,
+        Ship,
         Foot
     }
 }

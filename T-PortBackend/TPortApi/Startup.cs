@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using AspNetCore.Totp;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -10,7 +11,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Swagger;
+using TPort.Domain.RouteManagement;
 using TPort.Domain.UserManagement;
 using TPort.Infrastructure.DataAccess;
 using TPort.Infrastructure.WorkingWithApi;
@@ -53,10 +56,12 @@ namespace TPortApi
                 new InMemoryTotpTokenRepository(new Dictionary<string, int>()));
 
             var smsManager = new SmsManager();
-            
+            var text = File.ReadAllText("cities.json");
+            var cities = JsonConvert.DeserializeObject<List<City>>(text);
             var routeManager = new RouteManager(new AirTicketManager(new AirTicketsApi(
                 Configuration["AirApiSettings:token"],
-                Configuration["AirApiSettings:url"])));
+                Configuration["AirApiSettings:url"])), 
+                new InMemoryCityRepository(cities));
                         
             services.AddSingleton(ConfigureSecurity(services));
             services.AddSingleton(routeManager);

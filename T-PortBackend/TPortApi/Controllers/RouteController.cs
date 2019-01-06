@@ -17,7 +17,7 @@ namespace TPortApi.Controllers
         public ActionResult FindRoutes([FromBody] RequestRoute requestRoute)
         {
             return Ok(_routeManager
-                .FindRoutes(requestRoute.DepartureCityCode, requestRoute.DestinationCityCode, requestRoute.DepartDate));
+                .FindRoutes(requestRoute.DepartureCityName, requestRoute.DestinationCityName, requestRoute.DepartDate));
         }
 
         private readonly RouteManager _routeManager;
