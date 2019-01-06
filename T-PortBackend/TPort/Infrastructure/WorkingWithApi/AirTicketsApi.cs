@@ -1,7 +1,5 @@
 using System;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
 using TPort.Infrastructure.WorkingWithApi.Models;
 
 namespace TPort.Infrastructure.WorkingWithApi

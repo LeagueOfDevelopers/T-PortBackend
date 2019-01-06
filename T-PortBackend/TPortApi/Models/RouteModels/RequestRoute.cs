@@ -6,10 +6,10 @@ namespace TPortApi.Models.RouteModels
     public class RequestRoute
     {
         [Required]
-        public string DepartureCityCode { get; set; }
+        public string DepartureCityName { get; set; }
         
         [Required]
-        public string DestinationCityCode { get; set; }
+        public string DestinationCityName { get; set; }
         
         [Required]
         public DateTime DepartDate { get; set; }
