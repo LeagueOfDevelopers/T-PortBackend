@@ -4,13 +4,12 @@ namespace TPort.Domain.RouteManagement
 {
     public class Route
     {
-        public Route(Guid id, TransportationType type, double cost, City origin, City destination,DateTime departureDate,
+        public Route(Guid id, Transport transport, double cost, Destination destination,DateTime departureDate,
             DateTime arrivalDate)
         {
             Id = id;
-            Type = type;
+            Transport = transport;
             Cost = cost;
-            Origin = origin ?? throw new ArgumentNullException(nameof(origin));
             Destination = destination ?? throw new ArgumentNullException(nameof(destination));
             DepartureDate = departureDate;
             ArrivalDate = arrivalDate;
@@ -18,16 +17,21 @@ namespace TPort.Domain.RouteManagement
 
         public Guid Id;
         
-        public TransportationType Type { get; }
+        public Transport Transport { get; }
         
         public double Cost { get; }
         
-        public City Origin { get; }   //пока так
-        
-        public City Destination { get; }
+        public Destination Destination { get; }
         
         public DateTime DepartureDate { get; }
         
         public DateTime ArrivalDate { get; }
+        
+        public bool IsPaid { get; private set; }
+
+        public void Pay()
+        {
+            IsPaid = true;
+        }   
     }
 }

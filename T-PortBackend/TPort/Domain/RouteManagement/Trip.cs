@@ -5,27 +5,21 @@ namespace TPort.Domain.RouteManagement
 {
     public class Trip
     {
-        public Trip(Guid id, City departureCity, City destinationCity, List<Route> routes, double cost, TimeSpan duration)
+        public Trip(Guid id, Destination destination, List<Route> routes, double cost)
         {
             Id = id;
-            DepartureCity = departureCity ?? throw new ArgumentNullException(nameof(departureCity));
-            DestinationCity = destinationCity ?? throw new ArgumentNullException(nameof(destinationCity));
+            Destination = destination ?? throw new ArgumentNullException(nameof(destination));
             _routes = routes ?? throw new ArgumentNullException(nameof(routes));
             Cost = cost;
-            Duration = duration;
         }
 
         public Guid Id { get; }
         
-        public City DepartureCity { get; }
-        
-        public City DestinationCity { get; }
+        public Destination Destination { get; }
         
         public IEnumerable<Route> Routes => _routes;
         
         public double Cost { get; }
-        
-        public TimeSpan Duration { get; }
         
         private readonly List<Route> _routes;
     }
