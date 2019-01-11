@@ -56,12 +56,12 @@ namespace TPortApi
                 new InMemoryTotpTokenRepository(new Dictionary<string, int>()));
 
             var smsManager = new SmsManager();
-            var text = File.ReadAllText("cities.json");
-            var cities = JsonConvert.DeserializeObject<List<City>>(text);
+            var text = File.ReadAllText("places.json");
+            var places = JsonConvert.DeserializeObject<List<Place>>(text);
             var routeManager = new RouteManager(new AirTicketManager(new AirTicketsApi(
                 Configuration["AirApiSettings:token"],
                 Configuration["AirApiSettings:url"])), 
-                new InMemoryCityRepository(cities));
+                new InMemoryPlaceRepository(places));
                         
             services.AddSingleton(ConfigureSecurity(services));
             services.AddSingleton(routeManager);
