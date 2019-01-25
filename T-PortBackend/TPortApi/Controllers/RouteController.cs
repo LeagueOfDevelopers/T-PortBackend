@@ -1,25 +1,41 @@
 using System;
+using System.Net;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TPort.Services;
+using TPortApi.Extensions;
 using TPortApi.Models.RouteModels;
 
 namespace TPortApi.Controllers
 {
     public class RouteController : Controller
     {
-        public RouteController(RouteManager routeManager)
+        public RouteController(TripManager tripManager, AccountManager accountManager)
         {
-            _routeManager = routeManager ?? throw new ArgumentNullException(nameof(routeManager));
+            _tripManager = tripManager ?? throw new ArgumentNullException(nameof(tripManager));
+            _accountManager = accountManager ?? throw new ArgumentNullException(nameof(accountManager));
+        }
+
+        [HttpGet]
+        [Route("trips")]
+        public ActionResult FindTrips([FromQuery] RequestRoute requestRoute)
+        {
+            return Ok(_tripManager
+                .FindTrips(requestRoute.DepartureCityName, requestRoute.DestinationCityName, requestRoute.DepartDate));
         }
 
         [HttpPost]
-        [Route("search")]
-        public ActionResult FindRoutes([FromBody] RequestRoute requestRoute)
+        [Route("trips/{tripId}/booking")]
+        [Authorize]
+        public ActionResult BookTrip(Guid tripId)
         {
-            return Ok(_routeManager
-                .FindRoutes(requestRoute.DepartureCityName, requestRoute.DestinationCityName, requestRoute.DepartDate));
+            var userId = Request.GetUserId();
+            _tripManager.BookTrip(tripId);
+            _accountManager.AddTripToAccount(tripId, userId);
+            return Ok();
         }
 
-        private readonly RouteManager _routeManager;
+        private readonly TripManager _tripManager;
+        private readonly AccountManager _accountManager;
     }
 }

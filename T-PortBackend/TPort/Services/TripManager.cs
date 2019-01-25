@@ -7,16 +7,17 @@ using TPort.Infrastructure.DataAccess;
 
 namespace TPort.Services
 {
-    public class RouteManager
+    public class TripManager
     {
-        public RouteManager(AirTicketManager airTicketManager, IPlaceRepository cityRepository)
+        public TripManager(AirTicketManager airTicketManager, IPlaceRepository cityRepository, ITripRepository tripRepository)
         {
             _airTicketManager = airTicketManager ?? throw new ArgumentNullException(nameof(airTicketManager));
             _placeRepository = cityRepository ?? throw new ArgumentNullException(nameof(cityRepository));
+            _tripRepository = tripRepository ?? throw new ArgumentNullException(nameof(tripRepository));
         }
         
-        public IEnumerable<Trip> FindRoutes(string departureCityName, string destinationCityName,
-            DateTime departDate)
+        public IEnumerable<Trip> FindTrips(string departureCityName, string destinationCityName,
+            DateTime departDate) // TODO тут точно что-то не так, нужна декомпозиция
         {
             var airTickets = _airTicketManager.GetRelevantTickets(
                 _placeRepository.GetPlaceByName(departureCityName)?.IataCode ??
@@ -38,11 +39,24 @@ namespace TPort.Services
                         DateTime.Parse(ticket.Depart_Date),
                         departDate.AddMinutes(Convert.ToInt32(ticket.Duration)))
                 },
-                ticket.Value));
+                ticket.Value,
+                false));
+            
+            foreach (var trip in trips)
+                _tripRepository.SaveTrip(trip);
+            
             return trips;
+        }
+
+        public void BookTrip(Guid tripId)
+        {
+            var trip = _tripRepository.LoadTrip(tripId);
+            trip.Book();
+            _tripRepository.SaveTrip(trip);
         }
 
         private readonly IPlaceRepository _placeRepository;
         private readonly AirTicketManager _airTicketManager;
+        private readonly ITripRepository _tripRepository;
     }
 }

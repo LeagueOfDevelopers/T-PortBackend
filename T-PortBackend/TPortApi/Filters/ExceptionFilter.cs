@@ -26,14 +26,14 @@ namespace TPortApi.Filters
                         };
                         context.ExceptionHandled = true;
                         break;
-                    default:
+                    /*default:
                         context.Result = new ContentResult
                         {
                             Content = context.Exception.Message,
                             StatusCode = 500
                         };
                         context.ExceptionHandled = true;
-                        break;
+                        break;*/
                             
             }
         }
