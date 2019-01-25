@@ -11,14 +11,14 @@ namespace TPort.Domain.UserManagement
             Credentials userCredentials,
             DateTimeOffset registrationTime,
             List<Guid> plannedTripsIds,
-            List<BankCardData> connectedUsersBankCardData,
+            List<BankCard> connectedUsersBankCardData,
             List<PassportData> connectedUsersPassportsData)
         {
             Id = id;
             UserCredentials = userCredentials ?? throw new ArgumentNullException(nameof(userCredentials));
             RegistrationTime = registrationTime;
             _plannedTripsIds = plannedTripsIds ?? throw new ArgumentNullException(nameof(plannedTripsIds));
-            _connectedUsersBankCardData = connectedUsersBankCardData ??
+            _bankCards = connectedUsersBankCardData ??
                                           throw new ArgumentNullException(nameof(connectedUsersBankCardData));
             _connectedUsersPassportsData = connectedUsersPassportsData ??
                                            throw new ArgumentNullException(nameof(connectedUsersPassportsData));
@@ -34,15 +34,20 @@ namespace TPort.Domain.UserManagement
 
         public IEnumerable<PassportData> ConnectedUsersPassportsData => _connectedUsersPassportsData;
 
-        public IEnumerable<BankCardData> ConnectedUsersBankCardData => _connectedUsersBankCardData;
+        public IEnumerable<BankCard> BankCards => _bankCards;
 
         public void AddPlannedTrip(Guid tripId)
         {
             _plannedTripsIds.Add(tripId);
         }
 
+        public void AddBankCard(BankCard bankCard)
+        {
+            _bankCards.Add(bankCard);
+        }
+
         private readonly List<Guid> _plannedTripsIds;
-        private readonly List<BankCardData> _connectedUsersBankCardData;
+        private readonly List<BankCard> _bankCards;
         private readonly List<PassportData> _connectedUsersPassportsData;
         
         protected bool Equals(Account other)

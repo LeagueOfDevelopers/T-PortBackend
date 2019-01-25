@@ -21,7 +21,7 @@ namespace TPort.Services
                 credentials, 
                 DateTimeOffset.Now,
                 new List<Guid>(), 
-                new List<BankCardData>(),
+                new List<BankCard>(),
                 new List<PassportData>());
             
             _accountRepository.SaveAccount(newAccount);
@@ -38,6 +38,13 @@ namespace TPort.Services
         {
             var account = _accountRepository.LoadAccountById(accountId);
             account.AddPlannedTrip(tripId);
+            _accountRepository.SaveAccount(account);
+        }
+
+        public void AddBankCardToAccount(string cardNumber, DateTime validity, Guid accountId)
+        {
+            var account = _accountRepository.LoadAccountById(accountId);
+            account.AddBankCard(new BankCard(cardNumber, validity));
             _accountRepository.SaveAccount(account);
         }
 

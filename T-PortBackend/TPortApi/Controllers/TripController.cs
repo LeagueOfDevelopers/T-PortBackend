@@ -4,13 +4,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TPort.Services;
 using TPortApi.Extensions;
+using TPortApi.Models.AccountModels;
 using TPortApi.Models.RouteModels;
 
 namespace TPortApi.Controllers
 {
-    public class RouteController : Controller
+    public class TripController : Controller
     {
-        public RouteController(TripManager tripManager, AccountManager accountManager)
+        public TripController(TripManager tripManager, AccountManager accountManager)
         {
             _tripManager = tripManager ?? throw new ArgumentNullException(nameof(tripManager));
             _accountManager = accountManager ?? throw new ArgumentNullException(nameof(accountManager));
@@ -34,7 +35,7 @@ namespace TPortApi.Controllers
             _accountManager.AddTripToAccount(tripId, userId);
             return Ok();
         }
-
+        
         private readonly TripManager _tripManager;
         private readonly AccountManager _accountManager;
     }
