@@ -1,8 +1,9 @@
 using System;
-using System.Net.Mail;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TPort.Common;
 using TPort.Services;
+using TPortApi.Extensions;
 using TPortApi.Models.AccountModels;
 using TPortApi.Security;
 
@@ -49,6 +50,16 @@ namespace TPortApi.Controllers
             var accountId = account?.Id ?? _accountManager.CreateAccount(credentials);
             var token = _jwtIssuer.IssueJwt(accountId);
             return Ok(new LoginResponse(token));
+        }
+        
+        [HttpPost]
+        [Route("account/cards")]
+        [Authorize]
+        public ActionResult AddBankCard([FromBody]BankCardModel bankCardModel)
+        {
+            var accountId = Request.GetUserId();
+            _accountManager.AddBankCardToAccount(bankCardModel.CardNumber, bankCardModel.Validity, accountId);
+            return Ok();
         }
 
         private readonly SmsManager _smsManager;

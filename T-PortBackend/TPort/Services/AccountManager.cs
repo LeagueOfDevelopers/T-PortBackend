@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using TPort.Common;
+using TPort.Domain.RouteManagement;
 using TPort.Domain.UserManagement;
 using TPort.Infrastructure.DataAccess;
 
@@ -19,7 +20,8 @@ namespace TPort.Services
                 Guid.NewGuid(), 
                 credentials, 
                 DateTimeOffset.Now,
-                new List<BankCardData>(),
+                new List<Guid>(), 
+                new List<BankCard>(),
                 new List<PassportData>());
             
             _accountRepository.SaveAccount(newAccount);
@@ -27,9 +29,23 @@ namespace TPort.Services
             return newAccount.Id;
         }
 
-        public Account LoadAccount(string phoneNumber)
+        public Account LoadAccount(string phoneNumber) //TODO тут не должно быть этого, нужно убрать логику из контроллера если можно и перенести ее сюда
         {
             return _accountRepository.LoadAccountByPhoneNumber(phoneNumber);
+        }
+
+        public void AddTripToAccount(Guid tripId, Guid accountId)
+        {
+            var account = _accountRepository.LoadAccountById(accountId);
+            account.AddPlannedTrip(tripId);
+            _accountRepository.SaveAccount(account);
+        }
+
+        public void AddBankCardToAccount(string cardNumber, DateTime validity, Guid accountId)
+        {
+            var account = _accountRepository.LoadAccountById(accountId);
+            account.AddBankCard(new BankCard(cardNumber, validity));
+            _accountRepository.SaveAccount(account);
         }
 
         private readonly IAccountRepository _accountRepository;

@@ -47,7 +47,7 @@ namespace TPortApi
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
             });
 
-            IAccountRepository accountRepository = new InMemoryAccountRepository(new Dictionary<string, Account>());
+            IAccountRepository accountRepository = new InMemoryAccountRepository(new List<Account>());
             var accountManager = new AccountManager(accountRepository);
 
             var totpManager = new TotpManager(new TotpGenerator(),
@@ -58,13 +58,14 @@ namespace TPortApi
             var smsManager = new SmsManager();
             var text = File.ReadAllText("places.json");
             var places = JsonConvert.DeserializeObject<List<Place>>(text);
-            var routeManager = new RouteManager(new AirTicketManager(new AirTicketsApi(
+            var tripManager = new TripManager(new AirTicketManager(new AirTicketsApi(
                 Configuration["AirApiSettings:token"],
                 Configuration["AirApiSettings:url"])), 
-                new InMemoryPlaceRepository(places));
+                new InMemoryPlaceRepository(places),
+                new InMemoryTripRepository(new List<Trip>()));
                         
             services.AddSingleton(ConfigureSecurity(services));
-            services.AddSingleton(routeManager);
+            services.AddSingleton(tripManager);
             services.AddSingleton(accountManager);
             services.AddSingleton(totpManager);
             services.AddSingleton(smsManager);
