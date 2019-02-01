@@ -11,7 +11,7 @@ namespace TPortApi.Filters
             switch (context.Exception)
             {
                     case InvalidTokenException _:
-                        context.Result = new BadRequestResult(); //TODO сделать информативные сообщения об ошибках
+                        context.Result = new BadRequestResult();
                         context.ExceptionHandled = true;
                         break;
                     case UnregisteredPhoneNumberException _:

@@ -8,10 +8,10 @@ namespace TPort.Infrastructure.DataAccess
     {
         void SaveAccount(Account account);
         
-        Account LoadAccountById(Guid id);
+        Account LoadAccount(Guid id);
 
-        Account LoadAccountByPhoneNumber(string phoneNumber);
+        Account LoadAccount(string phoneNumber);
         
-        Account GetUserByCredentials(Credentials credentials);
+        Account LoadAccount(Credentials credentials);
     }
 }
