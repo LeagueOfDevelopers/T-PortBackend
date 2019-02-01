@@ -6,7 +6,8 @@ namespace TPortApi.Models.AccountModels
     public class BankCardModel
     {
         [Required]
-        public string CardNumber { get; set; } //TODO Составить регулярку для валидации номера карты
+        [RegularExpression("^[0-9]{15}(?:[0-9]{1})?$")]
+        public string CardNumber { get; set; }
         
         [Required]
         public DateTime Validity { get; set; }
