@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TPort", "TPort\TPort.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TPortTests", "TPortTests\TPortTests.csproj", "{63B06167-600E-46ED-8BAE-E7DCFA1B0A0B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TPortApiTests", "TPortApiTests\TPortApiTests.csproj", "{33B752D8-4470-4E72-A5F6-A00661C3E9F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{63B06167-600E-46ED-8BAE-E7DCFA1B0A0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63B06167-600E-46ED-8BAE-E7DCFA1B0A0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63B06167-600E-46ED-8BAE-E7DCFA1B0A0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33B752D8-4470-4E72-A5F6-A00661C3E9F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33B752D8-4470-4E72-A5F6-A00661C3E9F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33B752D8-4470-4E72-A5F6-A00661C3E9F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33B752D8-4470-4E72-A5F6-A00661C3E9F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
