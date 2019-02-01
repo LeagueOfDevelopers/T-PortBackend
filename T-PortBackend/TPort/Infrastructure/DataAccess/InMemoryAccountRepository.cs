@@ -20,17 +20,17 @@ namespace TPort.Infrastructure.DataAccess
             _accounts.Add(account);
         }
 
-        public Account LoadAccountById(Guid id)
+        public Account LoadAccount(Guid id)
         {
             return _accounts.FirstOrDefault(account => account.Id == id);
         }
 
-        public Account LoadAccountByPhoneNumber(string phoneNumber) // TODO желательно сделать их перегрузками
+        public Account LoadAccount(string phoneNumber)
         {
             return _accounts.FirstOrDefault(account => account.UserCredentials.PhoneNumber == phoneNumber);
         }
 
-        public Account GetUserByCredentials(Credentials credentials)
+        public Account LoadAccount(Credentials credentials)
         {
             return _accounts.FirstOrDefault(account => account.UserCredentials == credentials);
         }

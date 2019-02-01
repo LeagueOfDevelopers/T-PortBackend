@@ -31,19 +31,19 @@ namespace TPort.Services
 
         public Account LoadAccount(string phoneNumber) //TODO тут не должно быть этого, нужно убрать логику из контроллера если можно и перенести ее сюда
         {
-            return _accountRepository.LoadAccountByPhoneNumber(phoneNumber);
+            return _accountRepository.LoadAccount(phoneNumber);
         }
 
         public void AddTripToAccount(Guid tripId, Guid accountId)
         {
-            var account = _accountRepository.LoadAccountById(accountId);
+            var account = _accountRepository.LoadAccount(accountId);
             account.AddPlannedTrip(tripId);
             _accountRepository.SaveAccount(account);
         }
 
         public void AddBankCardToAccount(string cardNumber, DateTime validity, Guid accountId)
         {
-            var account = _accountRepository.LoadAccountById(accountId);
+            var account = _accountRepository.LoadAccount(accountId);
             account.AddBankCard(new BankCard(cardNumber, validity));
             _accountRepository.SaveAccount(account);
         }
