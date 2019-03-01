@@ -34,6 +34,8 @@ namespace TPortApi
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
+            
             services.AddMvc(options =>
             {
                 options.Filters.Add(typeof(ExceptionFilter));
@@ -74,6 +76,7 @@ namespace TPortApi
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseCors(builder => builder.AllowAnyOrigin());
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
