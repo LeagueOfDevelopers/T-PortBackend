@@ -28,7 +28,7 @@ namespace TPort.Services
             return newAccount.Id;
         }
 
-        public Account LoadAccount(string phoneNumber) //TODO тут не должно быть этого, нужно убрать логику из контроллера если можно и перенести ее сюда
+        public Account LoadAccount(string phoneNumber)
         {
             return _accountRepository.LoadAccount(phoneNumber);
         }

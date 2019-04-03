@@ -13,6 +13,6 @@ namespace TPortApi.Models.AccountModels
         
         [Required]
         [JsonProperty("code")]
-        public string Code { get; set; }
+        public int Code { get; set; }
     }
 }

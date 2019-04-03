@@ -43,7 +43,7 @@ namespace TPortApi.Controllers
         [Route("login")]
         public IActionResult Login([FromBody] LoginConfirmationRequest loginConfirmationRequest)
         {
-            _totpManager.ValidateToken(loginConfirmationRequest.Phone, int.Parse(loginConfirmationRequest.Code));
+            _totpManager.ValidateToken(loginConfirmationRequest.Phone, loginConfirmationRequest.Code);
             var account = _accountManager.LoadAccount(loginConfirmationRequest.Phone);
             var credentials = new Credentials(Request.Headers["User-Agent"], loginConfirmationRequest.Phone);
             var accountId = account?.Id ?? _accountManager.CreateAccount(credentials);
