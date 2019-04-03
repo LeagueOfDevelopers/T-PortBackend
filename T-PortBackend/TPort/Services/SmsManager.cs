@@ -1,6 +1,6 @@
 namespace TPort.Services
 {
-    public class SmsManager
+    public class SmsManager : ISmsManager
     {
         public SmsManager()
         {

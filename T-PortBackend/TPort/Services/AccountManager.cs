@@ -6,7 +6,7 @@ using TPort.Infrastructure.DataAccess;
 
 namespace TPort.Services
 {
-    public class AccountManager
+    public class AccountManager : IAccountManager
     {
         public AccountManager(IAccountRepository accountRepository)
         {

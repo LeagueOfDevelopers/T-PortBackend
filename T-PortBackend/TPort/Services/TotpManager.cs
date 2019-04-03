@@ -4,10 +4,11 @@ using AspNetCore.Totp;
 using AspNetCore.Totp.Interface;
 using TPort.Domain.Exceptions;
 using TPort.Infrastructure.DataAccess;
+using TPort.Services;
 
 namespace TPortApi.Security
 {
-    public class TotpManager
+    public class TotpManager : ITotpManager
     {
         public TotpManager(ITotpGenerator totpGenerator, string secretKey, int totpTokenLifetimeInSeconds, ITotpTokenRepository totpTokenRepository)
         {
