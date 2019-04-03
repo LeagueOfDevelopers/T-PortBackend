@@ -11,7 +11,7 @@ namespace TPortApi.Controllers
 {
     public class TripController : Controller
     {
-        public TripController(TripManager tripManager, AccountManager accountManager)
+        public TripController(ITripManager tripManager, IAccountManager accountManager)
         {
             _tripManager = tripManager ?? throw new ArgumentNullException(nameof(tripManager));
             _accountManager = accountManager ?? throw new ArgumentNullException(nameof(accountManager));
@@ -36,7 +36,7 @@ namespace TPortApi.Controllers
             return Ok();
         }
         
-        private readonly TripManager _tripManager;
-        private readonly AccountManager _accountManager;
+        private readonly ITripManager _tripManager;
+        private readonly IAccountManager _accountManager;
     }
 }

@@ -11,7 +11,7 @@ namespace TPortApi.Controllers
 {
     public class AccountController : Controller
     {
-        public AccountController(AccountManager accountManager, IJwtIssuer jwtIssuer, SmsManager smsManager, TotpManager totpManager)
+        public AccountController(IAccountManager accountManager, IJwtIssuer jwtIssuer, ISmsManager smsManager, ITotpManager totpManager)
         {
             _accountManager = accountManager ?? throw new ArgumentNullException(nameof(accountManager));
             _jwtIssuer = jwtIssuer ?? throw new ArgumentNullException(nameof(jwtIssuer));
@@ -62,9 +62,9 @@ namespace TPortApi.Controllers
             return Ok();
         }
 
-        private readonly SmsManager _smsManager;
-        private readonly AccountManager _accountManager;
+        private readonly ISmsManager _smsManager;
+        private readonly IAccountManager _accountManager;
         private readonly IJwtIssuer _jwtIssuer;
-        private readonly TotpManager _totpManager;
+        private readonly ITotpManager _totpManager;
     }
 }
