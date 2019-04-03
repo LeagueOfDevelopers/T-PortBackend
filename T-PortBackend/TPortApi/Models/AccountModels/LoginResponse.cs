@@ -1,7 +1,9 @@
 using System;
+using Newtonsoft.Json;
 
 namespace TPortApi.Models.AccountModels
 {
+    [JsonObject]
     public class LoginResponse
     {
         public LoginResponse(string token)
@@ -9,8 +11,7 @@ namespace TPortApi.Models.AccountModels
             Token = token ?? throw new ArgumentNullException(nameof(token));
         }
 
+        [JsonProperty("token")]
         public string Token { get; }
-        
-        //TODO : Решить что еще возвращать
     }
 }

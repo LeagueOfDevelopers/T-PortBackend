@@ -1,9 +1,8 @@
 using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TPort.Common;
+using TPort.Commons;
 using TPort.Services;
-using TPortApi.Extensions;
 using TPortApi.Models.AccountModels;
 using TPortApi.Security;
 
