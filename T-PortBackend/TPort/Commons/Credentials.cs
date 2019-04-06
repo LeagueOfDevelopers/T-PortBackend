@@ -1,8 +1,6 @@
 using System;
-using System.Security.Cryptography;
-using System.Text;
 
-namespace TPort.Common
+namespace TPort.Commons
 {
     public class Credentials
     {

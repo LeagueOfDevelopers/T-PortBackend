@@ -1,9 +1,8 @@
 using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TPort.Common;
+using TPort.Commons;
 using TPort.Services;
-using TPortApi.Extensions;
 using TPortApi.Models.AccountModels;
 using TPortApi.Security;
 
@@ -11,7 +10,7 @@ namespace TPortApi.Controllers
 {
     public class AccountController : Controller
     {
-        public AccountController(AccountManager accountManager, IJwtIssuer jwtIssuer, SmsManager smsManager, TotpManager totpManager)
+        public AccountController(IAccountManager accountManager, IJwtIssuer jwtIssuer, ISmsManager smsManager, ITotpManager totpManager)
         {
             _accountManager = accountManager ?? throw new ArgumentNullException(nameof(accountManager));
             _jwtIssuer = jwtIssuer ?? throw new ArgumentNullException(nameof(jwtIssuer));
@@ -31,7 +30,6 @@ namespace TPortApi.Controllers
                     .ToString());
             
             return Ok();
-
         }
 
         /// <summary>
@@ -44,7 +42,7 @@ namespace TPortApi.Controllers
         [Route("login")]
         public IActionResult Login([FromBody] LoginConfirmationRequest loginConfirmationRequest)
         {
-            _totpManager.ValidateToken(loginConfirmationRequest.Phone, int.Parse(loginConfirmationRequest.Code));
+            _totpManager.ValidateToken(loginConfirmationRequest.Phone, loginConfirmationRequest.Code);
             var account = _accountManager.LoadAccount(loginConfirmationRequest.Phone);
             var credentials = new Credentials(Request.Headers["User-Agent"], loginConfirmationRequest.Phone);
             var accountId = account?.Id ?? _accountManager.CreateAccount(credentials);
@@ -62,9 +60,9 @@ namespace TPortApi.Controllers
             return Ok();
         }
 
-        private readonly SmsManager _smsManager;
-        private readonly AccountManager _accountManager;
+        private readonly ISmsManager _smsManager;
+        private readonly IAccountManager _accountManager;
         private readonly IJwtIssuer _jwtIssuer;
-        private readonly TotpManager _totpManager;
+        private readonly ITotpManager _totpManager;
     }
 }

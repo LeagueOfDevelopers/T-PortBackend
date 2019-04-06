@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using TPort.Common;
+using TPort.Commons;
 using TPort.Domain.UserManagement;
 using TPort.Infrastructure.DataAccess;
 
 namespace TPort.Services
 {
-    public class AccountManager
+    public class AccountManager : IAccountManager
     {
         public AccountManager(IAccountRepository accountRepository)
         {
@@ -28,7 +28,7 @@ namespace TPort.Services
             return newAccount.Id;
         }
 
-        public Account LoadAccount(string phoneNumber) //TODO тут не должно быть этого, нужно убрать логику из контроллера если можно и перенести ее сюда
+        public Account LoadAccount(string phoneNumber)
         {
             return _accountRepository.LoadAccount(phoneNumber);
         }

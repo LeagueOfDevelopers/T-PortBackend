@@ -16,7 +16,6 @@ using Swashbuckle.AspNetCore.Swagger;
 using TPort.Domain.RouteManagement;
 using TPort.Domain.UserManagement;
 using TPort.Infrastructure.DataAccess;
-using TPort.Infrastructure.WorkingWithApi;
 using TPort.Services;
 using TPortApi.Filters;
 using TPortApi.Security;
@@ -57,20 +56,13 @@ namespace TPortApi
                 Configuration.GetValue<int>("TotpSettings:totpTokenLifetimeInSeconds"),
                 new InMemoryTotpTokenRepository(new Dictionary<string, int>()));
 
-            var smsManager = new SmsManager();
             var text = File.ReadAllText("places.json");
             var places = JsonConvert.DeserializeObject<List<Place>>(text);
-            var tripManager = new TripManager(new AirTicketManager(new AirTicketsApi(
-                Configuration["AirApiSettings:token"],
-                Configuration["AirApiSettings:url"])), 
-                new InMemoryPlaceRepository(places),
-                new InMemoryTripRepository(new List<Trip>()));
                         
             services.AddSingleton(ConfigureSecurity(services));
-            services.AddSingleton(tripManager);
             services.AddSingleton(accountManager);
             services.AddSingleton(totpManager);
-            services.AddSingleton(smsManager);
+            services.AddSingleton<ISmsManager, SmsManager>();
 
         }
 

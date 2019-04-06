@@ -4,10 +4,11 @@ using AspNetCore.Totp;
 using AspNetCore.Totp.Interface;
 using TPort.Domain.Exceptions;
 using TPort.Infrastructure.DataAccess;
+using TPort.Services;
 
 namespace TPortApi.Security
 {
-    public class TotpManager
+    public class TotpManager : ITotpManager
     {
         public TotpManager(ITotpGenerator totpGenerator, string secretKey, int totpTokenLifetimeInSeconds, ITotpTokenRepository totpTokenRepository)
         {
@@ -27,11 +28,11 @@ namespace TPortApi.Security
         public bool ValidateToken(string phoneNumber, int token)
         {
             return true;
-            var existingToken = _totpTokenRepository.GetToken(phoneNumber);
-            if (existingToken == 0) throw new UnregisteredPhoneNumberException();
-            if (existingToken != token) throw new InvalidTokenException();
-            var totpValidator = new TotpValidator(_totpGenerator);
-            return totpValidator.Validate(_secretKey, token, _totpTokenLifetimeInSeconds);
+//            var existingToken = _totpTokenRepository.GetToken(phoneNumber);
+//            if (existingToken == 0) throw new UnregisteredPhoneNumberException();
+//            if (existingToken != token) throw new InvalidTokenException();
+//            var totpValidator = new TotpValidator(_totpGenerator);
+//            return totpValidator.Validate(_secretKey, token, _totpTokenLifetimeInSeconds);
         }
 
 
