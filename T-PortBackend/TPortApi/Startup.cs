@@ -56,14 +56,13 @@ namespace TPortApi
                 Configuration.GetValue<int>("TotpSettings:totpTokenLifetimeInSeconds"),
                 new InMemoryTotpTokenRepository(new Dictionary<string, int>()));
 
-            var smsManager = new SmsManager();
             var text = File.ReadAllText("places.json");
             var places = JsonConvert.DeserializeObject<List<Place>>(text);
                         
             services.AddSingleton(ConfigureSecurity(services));
             services.AddSingleton(accountManager);
             services.AddSingleton(totpManager);
-            services.AddSingleton(smsManager);
+            services.AddSingleton<ISmsManager, SmsManager>();
 
         }
 
